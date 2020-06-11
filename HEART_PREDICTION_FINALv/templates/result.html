@@ -1,0 +1,462 @@
+<html>
+<body>
+    <h3>Heart Disease Prediction Form</h3>
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta content="utf-8" http-equiv="encoding">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Heart Disease Predictor</title>
+      <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+      <!-- <link href="/UCSDSAN20190108DATA/Project_3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
+      <script src="https://d3js.org/d3.v3.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+      <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="./static/css/bootstrap.css">
+      <link rel="shortcut icon" href="#">
+    </head>
+    
+    <body>
+      
+      <div class="container">
+        <div class="row">
+          <div class="jumbotron">
+            <img src="heart3.png" class="heart" alt="Heart Logo">
+            <span id="websiteTitle">Predicting Heart Disease</span>
+            <hr class="my-4">
+            <span id="websiteDescriptor">What is your likelihood of contracting heart disease?</span>
+            <h1>{{ prediction }}</h1>
+          </div>
+        </div>
+      </div>
+    
+    
+      <div class="container">
+        <div class="card-deck container-padding">
+          <div class="card text-primary text-primary col-md-5">
+            <div class="wrapper">
+              <canvas id="ageChart"></canvas>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title text-center mt-2">Age Distribution</h3>
+              <p class="card-text text-center mt-3">Age in Years of the people in this dataset.</p>
+            </div>
+          </div>
+          <div class="container col-md-1"></div>
+          <div class="card text-center text-primary text-primary col-md-5">
+            <div class="wrapper">
+                <canvas id="sexChart"></canvas>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title text-center mt-2">Gender</h3>
+              <p class="card-text text-center mt-3">Distribution of Men and Women.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="container">
+        <div class="card text-primary text-primary">
+            <div class="wrapper">
+              <canvas id="flouroChart"></canvas>
+            </div>
+          <div class="card-body">
+            <h3 class="card-title text-center mt-2">Fluoroscopy Results</h3>
+            <p class="card-text text-center mt-3">An imaging technique that uses X-Rays to obtain real-time moving images of the interior of an object.</p>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="container">
+        <div class="card text-primary text-primary">
+            <div class="wrapper">
+                <canvas id="cpChart"></canvas>
+            </div>
+          <div class="card-body">
+            <h3 class="card-title text-center mt-2">Severity of Chest Pain</h3>
+            <p class="card-text text-center mt-3">Discomfort or tightening of the chest, it may be described as sharp, dull, pressure, heaviness, or squeezing.</p>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="container">
+        <div class="card text-primary text-primary">
+            <div class="wrapper">
+              <canvas id="hrChart"></canvas>
+            </div>
+          <div class="card-body">
+            <h3 class="card-title text-center mt-2">Max Heart Rate Achieved</h3>
+            <p class="card-text text-center mt-3">The highest heart rate an individual can achieve without severe problems through exercise stress.</p>
+          </div>
+        </div>
+      </div>
+    <br>
+    
+      
+      <!-- <div class="container">
+        <div class="row">
+          <div class="container col-md-4 col-sm-12 border-rounded">
+          <div class="card-deck">
+            <div class="card text-primary">
+                <div class="wrapper col-md-6">
+                  <canvas id="ageChart"></canvas>
+                </div>
+              <div class="card-body">
+                <h3 class="card-title">Age Distribution</h3>
+                <p class="card-text">Age in Years of the people in this dataset.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="container col-md-4 col-sm-12">
+            <div class="card">
+              <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Gender</h5>
+                <p class="card-text">Distribution of Men and Women.</p>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="container col-md-4 col-sm-12">
+            <div class="card">
+              <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Chest Pain</h5>
+                <p class="card-text">Prevalence of Chest Pain in the patients.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="row">
+            <div class="container col-md-4 col-sm-12">
+              <div class="card">
+                <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Resting Blood Pressure</h5>
+                  <p class="card-text">Blood Pressure while sitting or relaxing.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="container col-md-4 col-sm-12">
+              <div class="card">
+                <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Cholesterol Level</h5>
+                  <p class="card-text">Cholesterol Level.</p>
+                </div>
+              </div>
+            </div>
+            <div class="container col-md-4 col-sm-12">
+              <div class="card">
+                <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Resting ECG</h5>
+                  <p class="card-text">Resting ECG.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="row">
+          <div class="container col-md-4 col-sm-12">
+            <div class="card">
+              <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Fasting Blood Sugar</h5>
+                <p class="card-text">Fasting Blood Sugar.</p>
+              </div>
+            </div>
+          </div>
+          <div class="container col-md-4 col-sm-12">
+            <div class="card">
+              <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Max Heart Rate</h5>
+                <p class="card-text">Heart Rate while exercising.</p>
+              </div>
+            </div>
+          </div>
+          <div class="container col-md-4 col-sm-12">
+            <div class="card">
+              <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Exercise Induced Angina</h5>
+                <p class="card-text">Prevalence of Chest Pain in the patients.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="container col-md-4 col-sm-12">
+            <div class="card">
+              <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">ST Depression</h5>
+                <p class="card-text">ST Depression.</p>
+              </div>
+            </div>
+          </div>
+          <div class="container col-md-4 col-sm-12">
+            <div class="card">
+              <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Slope of Peak Exercise</h5>
+                <p class="card-text">Slope of Peak Exercise.</p>
+              </div>
+            </div>
+          </div>
+          <div class="container col-md-4 col-sm-12">
+            <div class="card">
+              <img src="templates/heart3.png" class="card-img-top heart" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Flouroscopy</h5>
+                <p class="card-text">Process that discovers clogged arties.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="container col-md-4">
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">Age  
+            <button type="button" class="btnquestion btn-outline-secondary" data-toggle="popover" title="Popover Title" data-content="Test">?</button>
+          </span>
+          <input type="text" class="form-control" placeholder="50">
+        </div><br>
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">Cholesterol  <button type="button" class="btnquestion btn-outline-secondary">?</button></span>
+          <input type="text" class="form-control" placeholder="250">
+        </div><br>
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">Flouroscopy  <button type="button" class="btnquestion btn-outline-secondary">?</button></span>
+          <input type="text" class="form-control" placeholder="0-3">
+        </div><br>
+        
+      </div>
+      <div class="container col-md-4">
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">Resting Blood Pressure  <button type="button" class="btnquestion btn-outline-secondary">?</button></span>
+          <input type="text" class="form-control" placeholder="130">
+        </div><br>
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">Chest Pain  <button type="button" class="btnquestion btn-outline-secondary">?</button></span>
+          <input type="text" class="form-control" placeholder="0-3">
+        </div><br>
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">ST Depression  <button type="button" class="btnquestion btn-outline-secondary">?</button></span>
+          <input type="text" class="form-control" placeholder="0.0-10.0">
+        </div><br>     
+      </div>
+      <div class="container col-md-4">
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">Max Heart Rate  <button type="button" class="btnquestion btn-outline-secondary">?</button></span>
+          <input type="text" class="form-control" placeholder="170">
+        </div><br> 
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">Thal  <button type="button" class="btnquestion btn-outline-secondary">?</button></span>
+          <input type="text" class="form-control" placeholder="0-3">
+        </div><br>
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">Exercise Induced Angina  <button type="button" class="btnquestion btn-outline-secondary">?</button></span>
+          <input type="text" class="form-control" placeholder="Y/N">
+        </div><br> 
+      </div> -->
+      <!-- <div class="container col-md-2">
+        <div class="row"></div>
+      </div> -->
+      
+      <!-- <div class="container col-md-4">
+        <div class="well">
+          <h5>Age:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div></br>
+        <div class="well">
+          <h5>Cholesterol:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div></br>
+        <div class="well">
+          <h5>Flouroscopy:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div></br>
+      </div>
+      <div class="container col-md-4">
+        <div class="well">
+          <h5>Resting Blood Pressure:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div></br>
+        <div class="well">
+          <h5>Chest Pain:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div></br>
+        <div class="well">
+          <h5>ST Depression:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div></br>
+      </div>
+      <div class="container col-md-4">
+        <div class="well">
+          <h5>Max Heart Rate:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div></br>
+        <div class="well">
+          <h5>Thal:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div></br>
+        <div class="well">
+          <h5>Exercise Induced Angina:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div></br>
+      </div>
+      
+    
+      <div class="container col-md-5"></div>
+      <div class="container col-md-2">
+        <a href="#" class="btn btn-default btn-lg" role="button"><img src="templates/heart3.png" class="heart2" alt="Heart Logo">  Check Your Risk</a>
+      </div>
+      <div class="container col-md-5">
+          <div class="row"></div> -->
+      <!-- </div></br> -->
+      <div class="container col-md-2"></div>
+      <div class="container col-md-8">
+          <form action="/result" method="POST">
+            <div class="form-row">
+              <div class="column">
+                <!-- <div class="form-group"> -->
+                  <label for="age">Age</label>
+                  <input type="number" class="form-control" placeholder="50" id="age" name="age">
+                <!-- </div> -->
+              </div>
+              <!-- <div class="form-group"> -->
+                <label for="sex">Gender</label>
+                <select class="form-control" id="sex" name="sex">
+                  <option value="0">Male</option>
+                  <option value="1">Female</option>
+                </select>
+              <!-- </div> -->
+              <!-- <div class="form-group"> -->
+                <label for="cp">Chest Pain</label>
+                <select class="form-control" select id="cp" name="cp">
+                  <option value="0">None</option>
+                  <option value="1">Mild</option>
+                  <option value="2">Moderate</option>
+                  <option value="3">Severe</option>
+                </select>
+              <!-- </div> -->
+            </div>
+            <div class="form-group">
+              <label for="trestbps">Resting Blood Pressure</label>
+              <input type="number" class="form-control" placeholder="120" id="trestbps" name="trestbps">
+            </div>
+            <div class="form-group">
+              <label for="chol">Cholesterol Level</label>
+              <input type="number" class="form-control" placeholder="250" id="chol" name="chol">
+            </div>
+            <div class="form-group">
+              <label for="restecg">Resting ECG</label>
+              <select class="form-control" select id="restecg" name="restecg">
+                <option>Less than 1</option>
+                <option>1-1.2</option>
+                <option>More than 2</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fbs">Fasting Blood Sugar</label>
+              <select class="form-control" select id="fbs" name="fbs">
+                <option value="0">Less than 120mg/dl</option>
+                <option value="1">More than 120mg/dl</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="thalach">Max Heart Rate</label>
+              <input type="number" class="form-control" placeholder="160" id="thalach" name="thalach">
+            </div>
+            <div class="form-group">
+              <label for="exang">Exercise Induced Angina</label>
+              <select class="form-control" select id="exang" name="exang">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="oldpeak">ST Depression</label>
+              <input type="text" class="form-control" placeholder="0-6.2" input type="text" id="oldpeak" name="oldpeak">
+            </div>
+            <div class="form-group">
+              <label for="slope">Slope of Peak Exercise</label>
+              <select class="form-control" select id="slope" name="slope">
+                <option value="0">Less than 1</option>
+                <option value="1">1.1-1.8</option>
+                <option value="2">More than 1.8</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ca">Flouroscopy</label>
+              <select class="form-control" select id="ca" name="ca">
+                <option value="0">Less than 1</option>
+                <option value="1">1-1.75 (Mild)</option>
+                <option value="2">1.76-2.5 (Moderate)</option>
+                <option value="3">2.51-3.25 (Moderate/Severe)</option>
+                <option value="4">More than 3.25 (Severe)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="thal">Thal</label>
+              <select class="form-control" select id="thal" name="thal">
+                <option value="0">Less than 0.8</option>
+                <option value="1">0.81-1.5 (Mild/Reversible)</option>
+                <option value="2">1.51-2.2 (Moderate/Reversible)</option>
+                <option value="3">More than 2.2 (Moderate/Non-Reversible)</option>
+              </select>
+            </div>
+            <div class="container col-md-5"></div>
+              <div class="container col-md-2">
+                <a href="#" class="btn btn-default btn-lg" role="button"><img src="heart3.png" class="heart2" alt="Heart Logo">  Check Your Risk</a>
+              </div>
+            <div class="container col-md-5"></div>
+          </form>
+         </div>
+         <div class="container col-md-2"></div>
+      
+      
+      <div class="container col-md-12">
+          <p>
+            Please consult your doctor for more accurate depictions of your health.
+          </p>
+      </div>
+      
+      <!-- <script>
+        $(function () {
+          $('[data-toggle="popover"]').popover({
+            container: 'body'
+          })
+        });
+      </script> -->
+      <!-- <script>
+        (function($) {
+          $(function() {
+            $(document).tooltip({ selector: '[data-toggle="tooltip"]' });
+            $(document).popover({ selector: '[data-toggle="popover"]' });
+          });
+        })(jQuery);
+      </script> -->
+       <!-- <script type="text/javascript">
+        (function () {
+          ('[data-toggle="popover"]').popover('show')
+        });
+      </script> -->
+      <!-- <script src="js/popper.min.js"></script> -->
+      <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
+      <!-- <script src="/js/bootstrap.min.js"></script> -->
+      <!-- <script type="text/javascript" src="js/Radar.js"></script> -->
+      <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    
+    </body>
+    
+    </html>
+   </body>
+</html>
